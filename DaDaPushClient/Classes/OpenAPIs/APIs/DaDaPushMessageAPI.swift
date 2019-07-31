@@ -15,11 +15,11 @@ open class DaDaPushMessageAPI {
      push Message to a Channel
      
      - parameter body: (body) body 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createMessage(body: MessagePushRequest, xChannelToken: String? = nil, completion: @escaping ((_ data: ResultOfMessagePushResponse?,_ error: Error?) -> Void)) {
-        createMessageWithRequestBuilder(body: body, xChannelToken: xChannelToken).execute { (response, error) -> Void in
+    open class func createMessage(body: MessagePushRequest, channelToken: String, completion: @escaping ((_ data: ResultOfMessagePushResponse?,_ error: Error?) -> Void)) {
+        createMessageWithRequestBuilder(body: body, channelToken: channelToken).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -29,17 +29,17 @@ open class DaDaPushMessageAPI {
      - POST /api/v1/message
      - <h2>Rate Limit:</h2><ul><li>1 request per 1s</li><li>30 request per 1m</li><li>500 request per 1h</li></ul><h2>Result code/errmsg List:</h2><ul><li>0: ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel is not exists</li><li>103: channel token error</li><li>104: channel is not exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205: permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301: duplicate username/email</li><li>302: user is not exists</li><li>303: user password is error</li><li>304: client push token is error</li><li>305: user is disabled</li><li>306: your subscription is expired</li><li>307: user not subscribe channel</li></ul>
      - parameter body: (body) body 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - returns: RequestBuilder<ResultOfMessagePushResponse> 
      */
-    open class func createMessageWithRequestBuilder(body: MessagePushRequest, xChannelToken: String? = nil) -> RequestBuilder<ResultOfMessagePushResponse> {
+    open class func createMessageWithRequestBuilder(body: MessagePushRequest, channelToken: String) -> RequestBuilder<ResultOfMessagePushResponse> {
         let path = "/api/v1/message"
         let URLString = DaDaPushClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
         let nillableHeaders: [String: Any?] = [
-            "x-channel-token": xChannelToken
+            "x-channel-token": channelToken
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -52,11 +52,11 @@ open class DaDaPushMessageAPI {
      delete a Channel Message
      
      - parameter messageId: (path) messageId 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteMessage(messageId: Int64, xChannelToken: String? = nil, completion: @escaping ((_ data: Result?,_ error: Error?) -> Void)) {
-        deleteMessageWithRequestBuilder(messageId: messageId, xChannelToken: xChannelToken).execute { (response, error) -> Void in
+    open class func deleteMessage(messageId: Int64, channelToken: String, completion: @escaping ((_ data: Result?,_ error: Error?) -> Void)) {
+        deleteMessageWithRequestBuilder(messageId: messageId, channelToken: channelToken).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -66,10 +66,10 @@ open class DaDaPushMessageAPI {
      - DELETE /api/v1/message/{messageId}
      - <h2>Rate Limit:</h2><ul><li>10 request per 1s</li><li>100 request per 1m</li><li>1000 request per 1h</li></ul><h2>Result code/errmsg List:</h2><ul><li>0: ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel is not exists</li><li>103: channel token error</li><li>104: channel is not exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205: permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301: duplicate username/email</li><li>302: user is not exists</li><li>303: user password is error</li><li>304: client push token is error</li><li>305: user is disabled</li><li>306: your subscription is expired</li><li>307: user not subscribe channel</li></ul>
      - parameter messageId: (path) messageId 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - returns: RequestBuilder<Result> 
      */
-    open class func deleteMessageWithRequestBuilder(messageId: Int64, xChannelToken: String? = nil) -> RequestBuilder<Result> {
+    open class func deleteMessageWithRequestBuilder(messageId: Int64, channelToken: String) -> RequestBuilder<Result> {
         var path = "/api/v1/message/{messageId}"
         let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
         let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -79,7 +79,7 @@ open class DaDaPushMessageAPI {
         
         let url = URLComponents(string: URLString)
         let nillableHeaders: [String: Any?] = [
-            "x-channel-token": xChannelToken
+            "x-channel-token": channelToken
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -92,11 +92,11 @@ open class DaDaPushMessageAPI {
      get a Channel Message
      
      - parameter messageId: (path) messageId 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getMessage(messageId: Int64, xChannelToken: String? = nil, completion: @escaping ((_ data: ResultOfMessageObject?,_ error: Error?) -> Void)) {
-        getMessageWithRequestBuilder(messageId: messageId, xChannelToken: xChannelToken).execute { (response, error) -> Void in
+    open class func getMessage(messageId: Int64, channelToken: String, completion: @escaping ((_ data: ResultOfMessageObject?,_ error: Error?) -> Void)) {
+        getMessageWithRequestBuilder(messageId: messageId, channelToken: channelToken).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -106,10 +106,10 @@ open class DaDaPushMessageAPI {
      - GET /api/v1/message/{messageId}
      - <h2>Rate Limit:</h2><ul><li>10 request per 1s</li><li>100 request per 1m</li><li>1000 request per 1h</li></ul><h2>Result code/errmsg List:</h2><ul><li>0: ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel is not exists</li><li>103: channel token error</li><li>104: channel is not exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205: permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301: duplicate username/email</li><li>302: user is not exists</li><li>303: user password is error</li><li>304: client push token is error</li><li>305: user is disabled</li><li>306: your subscription is expired</li><li>307: user not subscribe channel</li></ul>
      - parameter messageId: (path) messageId 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - returns: RequestBuilder<ResultOfMessageObject> 
      */
-    open class func getMessageWithRequestBuilder(messageId: Int64, xChannelToken: String? = nil) -> RequestBuilder<ResultOfMessageObject> {
+    open class func getMessageWithRequestBuilder(messageId: Int64, channelToken: String) -> RequestBuilder<ResultOfMessageObject> {
         var path = "/api/v1/message/{messageId}"
         let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
         let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -119,7 +119,7 @@ open class DaDaPushMessageAPI {
         
         let url = URLComponents(string: URLString)
         let nillableHeaders: [String: Any?] = [
-            "x-channel-token": xChannelToken
+            "x-channel-token": channelToken
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -133,11 +133,11 @@ open class DaDaPushMessageAPI {
      
      - parameter page: (query) greater than 1 
      - parameter pageSize: (query) range is 1,50 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getMessages(page: Int, pageSize: Int, xChannelToken: String? = nil, completion: @escaping ((_ data: ResultOfPageResponseOfMessageObject?,_ error: Error?) -> Void)) {
-        getMessagesWithRequestBuilder(page: page, pageSize: pageSize, xChannelToken: xChannelToken).execute { (response, error) -> Void in
+    open class func getMessages(page: Int, pageSize: Int, channelToken: String, completion: @escaping ((_ data: ResultOfPageResponseOfMessageObject?,_ error: Error?) -> Void)) {
+        getMessagesWithRequestBuilder(page: page, pageSize: pageSize, channelToken: channelToken).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -148,10 +148,10 @@ open class DaDaPushMessageAPI {
      - <h2>Rate Limit:</h2><ul><li>1 request per 1s</li><li>45 request per 1m</li></ul><h2>Result code/errmsg List:</h2><ul><li>0: ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel is not exists</li><li>103: channel token error</li><li>104: channel is not exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205: permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301: duplicate username/email</li><li>302: user is not exists</li><li>303: user password is error</li><li>304: client push token is error</li><li>305: user is disabled</li><li>306: your subscription is expired</li><li>307: user not subscribe channel</li></ul>
      - parameter page: (query) greater than 1 
      - parameter pageSize: (query) range is 1,50 
-     - parameter xChannelToken: (header) see: https://www.dadapush.com/channel/list (optional)
+     - parameter channelToken: (header) see: https://www.dadapush.com/channel/list
      - returns: RequestBuilder<ResultOfPageResponseOfMessageObject> 
      */
-    open class func getMessagesWithRequestBuilder(page: Int, pageSize: Int, xChannelToken: String? = nil) -> RequestBuilder<ResultOfPageResponseOfMessageObject> {
+    open class func getMessagesWithRequestBuilder(page: Int, pageSize: Int, channelToken: String) -> RequestBuilder<ResultOfPageResponseOfMessageObject> {
         let path = "/api/v1/messages"
         let URLString = DaDaPushClientAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -162,7 +162,7 @@ open class DaDaPushMessageAPI {
             "pageSize": pageSize.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "x-channel-token": xChannelToken
+            "x-channel-token": channelToken
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 

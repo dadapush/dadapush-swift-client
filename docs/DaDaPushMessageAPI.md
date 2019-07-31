@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **createMessage**
 ```swift
-    open class func createMessage(body: MessagePushRequest, xChannelToken: String? = nil, completion: @escaping (_ data: ResultOfMessagePushResponse?, _ error: Error?) -> Void)
+    open class func createMessage(body: MessagePushRequest, channelToken: String, completion: @escaping (_ data: ResultOfMessagePushResponse?, _ error: Error?) -> Void)
 ```
 
 push Message to a Channel
@@ -25,10 +25,10 @@ push Message to a Channel
 import DaDaPushClient
 
 let body = MessagePushRequest(actions: [Action(name: "name_example", type: "type_example", url: "url_example")], content: "content_example", needPush: false, title: "title_example") // MessagePushRequest | body
-let xChannelToken = "xChannelToken_example" // String | see: https://www.dadapush.com/channel/list (optional)
+let channelToken = "channelToken_example" // String | see: https://www.dadapush.com/channel/list 
 
 // push Message to a Channel
-DaDaPushMessageAPI.createMessage(body: body, xChannelToken: xChannelToken) { (response, error) in
+DaDaPushMessageAPI.createMessage(body: body, channelToken: channelToken) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -45,7 +45,7 @@ DaDaPushMessageAPI.createMessage(body: body, xChannelToken: xChannelToken) { (re
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**MessagePushRequest**](MessagePushRequest.md) | body | 
- **xChannelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
+ **channelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
 
 ### Return type
 
@@ -64,7 +64,7 @@ No authorization required
 
 # **deleteMessage**
 ```swift
-    open class func deleteMessage(messageId: Int64, xChannelToken: String? = nil, completion: @escaping (_ data: Result?, _ error: Error?) -> Void)
+    open class func deleteMessage(messageId: Int64, channelToken: String, completion: @escaping (_ data: Result?, _ error: Error?) -> Void)
 ```
 
 delete a Channel Message
@@ -77,10 +77,10 @@ delete a Channel Message
 import DaDaPushClient
 
 let messageId = 987 // Int64 | messageId
-let xChannelToken = "xChannelToken_example" // String | see: https://www.dadapush.com/channel/list (optional)
+let channelToken = "channelToken_example" // String | see: https://www.dadapush.com/channel/list 
 
 // delete a Channel Message
-DaDaPushMessageAPI.deleteMessage(messageId: messageId, xChannelToken: xChannelToken) { (response, error) in
+DaDaPushMessageAPI.deleteMessage(messageId: messageId, channelToken: channelToken) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -97,7 +97,7 @@ DaDaPushMessageAPI.deleteMessage(messageId: messageId, xChannelToken: xChannelTo
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **messageId** | **Int64** | messageId | 
- **xChannelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
+ **channelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
 
 ### Return type
 
@@ -116,7 +116,7 @@ No authorization required
 
 # **getMessage**
 ```swift
-    open class func getMessage(messageId: Int64, xChannelToken: String? = nil, completion: @escaping (_ data: ResultOfMessageObject?, _ error: Error?) -> Void)
+    open class func getMessage(messageId: Int64, channelToken: String, completion: @escaping (_ data: ResultOfMessageObject?, _ error: Error?) -> Void)
 ```
 
 get a Channel Message
@@ -129,10 +129,10 @@ get a Channel Message
 import DaDaPushClient
 
 let messageId = 987 // Int64 | messageId
-let xChannelToken = "xChannelToken_example" // String | see: https://www.dadapush.com/channel/list (optional)
+let channelToken = "channelToken_example" // String | see: https://www.dadapush.com/channel/list 
 
 // get a Channel Message
-DaDaPushMessageAPI.getMessage(messageId: messageId, xChannelToken: xChannelToken) { (response, error) in
+DaDaPushMessageAPI.getMessage(messageId: messageId, channelToken: channelToken) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -149,7 +149,7 @@ DaDaPushMessageAPI.getMessage(messageId: messageId, xChannelToken: xChannelToken
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **messageId** | **Int64** | messageId | 
- **xChannelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
+ **channelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
 
 ### Return type
 
@@ -168,7 +168,7 @@ No authorization required
 
 # **getMessages**
 ```swift
-    open class func getMessages(page: Int, pageSize: Int, xChannelToken: String? = nil, completion: @escaping (_ data: ResultOfPageResponseOfMessageObject?, _ error: Error?) -> Void)
+    open class func getMessages(page: Int, pageSize: Int, channelToken: String, completion: @escaping (_ data: ResultOfPageResponseOfMessageObject?, _ error: Error?) -> Void)
 ```
 
 get Message List
@@ -182,10 +182,10 @@ import DaDaPushClient
 
 let page = 987 // Int | greater than 1 (default to 1)
 let pageSize = 987 // Int | range is 1,50 (default to 10)
-let xChannelToken = "xChannelToken_example" // String | see: https://www.dadapush.com/channel/list (optional)
+let channelToken = "channelToken_example" // String | see: https://www.dadapush.com/channel/list 
 
 // get Message List
-DaDaPushMessageAPI.getMessages(page: page, pageSize: pageSize, xChannelToken: xChannelToken) { (response, error) in
+DaDaPushMessageAPI.getMessages(page: page, pageSize: pageSize, channelToken: channelToken) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -203,7 +203,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **Int** | greater than 1 | [default to 1]
  **pageSize** | **Int** | range is 1,50 | [default to 10]
- **xChannelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
+ **channelToken** | **String** | see: https://www.dadapush.com/channel/list | [optional] 
 
 ### Return type
 
